@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bài 17: Biến và lệnh gán</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="top">
+      <button id="menuBtn" class="menu-btn" aria-label="Mở mục lục">☰</button>
+      <div class="brand">
+        <span class="logo">🐍</span> Bài 17 · Biến và lệnh gán
+      </div>
+      <div class="progress-wrap" title="Tiến độ học">
+        <div class="progress"><div id="progressBar"></div></div>
+        <span id="progressText">0%</span>
+      </div>
+    </header>
+
+    <nav id="sidebar" class="sidebar">
+      <a href="#muctieu" data-sec="muctieu">🎯 Mục tiêu</a>
+      <a href="#bien" data-sec="bien">1. Biến là gì?</a>
+      <a href="#dattten" data-sec="dattten">2. Quy tắc đặt tên</a>
+      <a href="#kieu" data-sec="kieu">3. Kiểu dữ liệu</a>
+      <a href="#gan" data-sec="gan">4. Lệnh gán</a>
+      <a href="#nhapxuat" data-sec="nhapxuat">5. Nhập, xuất dữ liệu</a>
+      <a href="#baitap" data-sec="baitap">6. Bài tập lập trình</a>
+      <a href="#nopbai" data-sec="nopbai">7. Nộp bài</a>
+    </nav>
+
+    <main>
+      <section id="muctieu" class="card hero">
+        <h1>Biến và lệnh gán trong Python</h1>
+        <p>Sau bài này em sẽ:</p>
+        <ul class="goals">
+          <li>Giải thích được <b>biến</b> là gì và biến được lưu ở đâu.</li>
+          <li>Đặt tên biến đúng quy tắc, nhận biết các kiểu dữ liệu cơ bản.</li>
+          <li>
+            Dùng <b>lệnh gán</b> <code>=</code> để lưu và cập nhật giá trị, hoán
+            đổi hai biến.
+          </li>
+          <li>
+            Nhập dữ liệu bằng <code>input()</code>, xuất bằng
+            <code>print()</code> và viết chương trình nhỏ hoàn chỉnh.
+          </li>
+        </ul>
+        <p class="hint">
+          💡 Mọi khung code trong bài đều <b>chạy được ngay</b>. Hãy sửa thử và
+          bấm “Chạy”. Lần chạy đầu tiên cần vài giây để tải Python.
+        </p>
+        <p class="legend">
+          🎨 Màu trong code:
+          <span class="cm-s-bai17 lg"
+            ><span class="cm-variable">tên biến</span>
+            <span class="cm-number">số</span>
+            <span class="cm-string">"xâu"</span>
+            <span class="cm-keyword">từ khóa</span>
+            <span class="cm-builtin">print</span>
+            <span class="cm-comment"># ghi chú</span></span
+          >
+          · Gõ dấu <code>:</code> rồi Enter, máy tự thụt lề; Tab để thụt,
+          Shift+Tab để lùi.
+        </p>
+      </section>
+
+      <!-- 1 -->
+      <section id="bien" class="card">
+        <h2>1. Biến là gì?</h2>
+        <p>
+          Khi chạy chương trình, máy tính cần <b>nhớ</b> dữ liệu như tuổi, điểm
+          số, tên… Nơi nhớ đó là <b>bộ nhớ</b>. Để dùng dữ liệu, ta đặt cho một
+          ô nhớ một cái <b>tên</b>. Ô nhớ có tên đó gọi là <b>biến</b>.
+        </p>
+        <div class="analogy">
+          <div class="box-demo">
+            <div class="tag">tuoi</div>
+            <div class="val">15</div>
+          </div>
+          <div class="box-demo">
+            <div class="tag">ten</div>
+            <div class="val">"An"</div>
+          </div>
+          <div class="box-demo">
+            <div class="tag">diem</div>
+            <div class="val">8.5</div>
+          </div>
+        </div>
+        <p class="cap">
+          Hình dung: mỗi biến là một chiếc hộp có <b>nhãn (tên)</b> và bên trong
+          chứa một <b>giá trị</b>. Giá trị có thể thay bằng giá trị khác, đó là
+          lý do gọi là “biến”.
+        </p>
+        <div class="note">
+          <b>Ghi nhớ:</b> Biến = tên + giá trị. Trong Python, em không cần khai
+          báo trước, chỉ cần gán giá trị là biến xuất hiện.
+        </div>
+
+        <h3>Thử tạo biến</h3>
+        <div class="demo" data-id="d1">
+          <textarea spellcheck="false">
+ten = "An"
+tuoi = 15
+print(ten, "năm nay", tuoi, "tuổi")</textarea
+          >
+        </div>
+      </section>
+
+      <!-- 2 -->
+      <section id="dattten" class="card">
+        <h2>2. Quy tắc đặt tên biến</h2>
+        <ul>
+          <li>
+            Chỉ gồm <b>chữ cái không dấu</b> (a–z, A–Z), <b>chữ số</b> (0–9) và
+            dấu gạch dưới <code>_</code>.
+          </li>
+          <li><b>Không</b> bắt đầu bằng chữ số.</li>
+          <li>
+            <b>Không</b> có dấu cách hoặc ký tự đặc biệt (<code>- + * # @</code
+            >…).
+          </li>
+          <li>
+            <b>Không</b> trùng với từ khóa của Python (<code>if</code>,
+            <code>for</code>, <code>while</code>, <code>print</code>…).
+          </li>
+          <li>
+            Python <b>phân biệt chữ hoa, chữ thường</b>: <code>Tuoi</code> và
+            <code>tuoi</code> là hai biến khác nhau.
+          </li>
+        </ul>
+        <div class="note">
+          <b>Nên:</b> đặt tên gợi nhớ ý nghĩa, ví dụ <code>chieu_dai</code>,
+          <code>diem_toan</code> thay vì <code>a1</code>, <code>x</code>.
+        </div>
+
+        <h3>Máy kiểm tra tên biến</h3>
+        <div class="checker">
+          <input
+            id="nameInput"
+            type="text"
+            placeholder="Gõ thử một tên, ví dụ 2ban hoặc diem_toan"
+            autocomplete="off"
+          />
+          <div id="nameResult" class="result neutral">
+            Hãy gõ một tên để kiểm tra.
+          </div>
+        </div>
+        <div class="chips" id="nameChips"></div>
+      </section>
+
+      <!-- 3 -->
+      <section id="kieu" class="card">
+        <h2>3. Kiểu dữ liệu cơ bản</h2>
+        <p>
+          Mỗi giá trị có một <b>kiểu</b>. Kiểu quyết định giá trị đó dùng như
+          thế nào (cộng số, ghép chữ…).
+        </p>
+        <div class="table-wrap">
+          <table>
+            <tr>
+              <th>Kiểu</th>
+              <th>Ý nghĩa</th>
+              <th>Ví dụ</th>
+            </tr>
+            <tr>
+              <td><code>int</code></td>
+              <td>Số nguyên</td>
+              <td><code>15</code>, <code>-3</code>, <code>0</code></td>
+            </tr>
+            <tr>
+              <td><code>float</code></td>
+              <td>Số thực (có phần thập phân)</td>
+              <td><code>8.5</code>, <code>3.14</code></td>
+            </tr>
+            <tr>
+              <td><code>str</code></td>
+              <td>Xâu ký tự (đặt trong nháy)</td>
+              <td><code>"An"</code>, <code>'lop 10A'</code></td>
+            </tr>
+            <tr>
+              <td><code>bool</code></td>
+              <td>Đúng / Sai</td>
+              <td><code>True</code>, <code>False</code></td>
+            </tr>
+          </table>
+        </div>
+        <div class="note">
+          <b>Lưu ý:</b> <code>"15"</code> (có nháy) là xâu, còn
+          <code>15</code> là số. Hai thứ này hành xử khác nhau!
+        </div>
+
+        <h3>Hàm type() cho biết kiểu</h3>
+        <div class="demo" data-id="d2">
+          <textarea spellcheck="false">
+a = 15
+b = 8.5
+c = "15"
+d = (a > 10)
+print(type(a), type(b), type(c), type(d))
+print(a + a)    # cộng số
+print(c + c)    # ghép xâu: thử đoán kết quả trước khi chạy!</textarea
+          >
+        </div>
+      </section>
+
+      <!-- 4 -->
+      <section id="gan" class="card">
+        <h2>4. Lệnh gán</h2>
+        <p>Cú pháp: <code class="big">tên_biến = biểu_thức</code></p>
+        <p>
+          Dấu <code>=</code> trong Python <b>không phải</b> “bằng nhau” như
+          trong Toán. Nó có nghĩa:
+          <b>tính vế phải trước, rồi lưu kết quả vào biến ở vế trái</b>.
+        </p>
+
+        <h3>4.1. Gán và gán lại</h3>
+        <div class="demo" data-id="d3">
+          <textarea spellcheck="false">
+x = 5
+print(x)
+x = 9        # gán lại: giá trị cũ 5 bị thay bằng 9
+print(x)
+y = x * 2 + 1
+print(y)</textarea
+          >
+        </div>
+
+        <h3>4.2. Biến xuất hiện ở cả hai vế</h3>
+        <p>
+          Lệnh <code>a = a + 1</code> không vô lý. Máy lấy giá trị hiện tại của
+          <code>a</code>, cộng 1, rồi lưu lại vào <code>a</code>.
+        </p>
+        <div class="demo" data-id="d4">
+          <textarea spellcheck="false">
+diem = 7
+diem = diem + 1     # tăng thêm 1
+print(diem)
+diem += 2           # viết gọn của diem = diem + 2
+print(diem)</textarea
+          >
+        </div>
+
+        <h3>4.3. Gán nhiều biến cùng lúc</h3>
+        <div class="demo" data-id="d5">
+          <textarea spellcheck="false">
+a, b = 3, 7        # a = 3 và b = 7
+c = d = 0           # cùng nhận giá trị 0
+print(a, b, c, d)</textarea
+          >
+        </div>
+
+        <h3>4.4. Hoán đổi giá trị hai biến</h3>
+        <p>
+          Giả sử <code>a = 3</code>, <code>b = 7</code>. Nếu viết
+          <code>a = b</code> rồi <code>b = a</code> thì cả hai đều thành 7, vì
+          giá trị cũ của <code>a</code> đã mất! Cần một biến
+          <b>trung gian</b> (như cái cốc thứ ba khi đổi nước giữa hai cốc).
+        </p>
+        <div class="demo" data-id="d6">
+          <textarea spellcheck="false">
+a = 3
+b = 7
+tam = a      # cất giá trị của a
+a = b
+b = tam
+print(a, b)
+
+# Cách ngắn gọn của Python:
+a, b = b, a
+print(a, b)</textarea
+          >
+        </div>
+        <div class="note">
+          <b>Tóm tắt:</b> lệnh gán chạy <b>từ trên xuống dưới</b>, mỗi lệnh thay
+          đổi giá trị của biến bên trái; các biến khác giữ nguyên.
+        </div>
+      </section>
+
+      <!-- 5 -->
+      <section id="nhapxuat" class="card">
+        <h2>5. Nhập, xuất dữ liệu</h2>
+        <ul>
+          <li>
+            <code>print(...)</code>: in dữ liệu ra màn hình, các giá trị cách
+            nhau bằng dấu phẩy.
+          </li>
+          <li>
+            <code>input("lời nhắc")</code>: đọc dữ liệu người dùng gõ. Kết quả
+            <b>luôn là xâu (str)</b>.
+          </li>
+          <li>
+            Muốn tính toán phải đổi kiểu: <code>int(...)</code> cho số nguyên,
+            <code>float(...)</code> cho số thực.
+          </li>
+        </ul>
+        <div class="demo" data-id="d7">
+          <textarea spellcheck="false">
+ten = input("Tên em là gì? ")
+nam_sinh = int(input("Năm sinh: "))
+tuoi = 2025 - nam_sinh
+print("Chào", ten, "- năm 2025 em", tuoi, "tuổi")</textarea
+          >
+        </div>
+        <div class="note warn">
+          <b>Lỗi hay gặp:</b> quên <code>int()</code>. Khi đó
+          <code>"15" + "3"</code> cho <code>"153"</code> (ghép xâu) chứ không
+          phải <code>18</code>. Bấm Chạy, ô nhập sẽ hiện ra để em gõ như Python
+          thật. Hãy thử bỏ <code>int()</code> ở ví dụ trên để xem lỗi.
+        </div>
+      </section>
+
+      <!-- 6 -->
+      <section id="baitap" class="card">
+        <h2>6. Bài tập lập trình</h2>
+        <p>
+          Viết code, bấm <b>Chạy thử</b> để xem kết quả với dữ liệu em tự nhập,
+          rồi bấm <b>Chấm bài</b>. Chương trình được chạy với nhiều bộ dữ liệu
+          khác nhau, nên cần viết tổng quát (đừng “in sẵn” đáp án).
+        </p>
+        <div id="exercises"></div>
+      </section>
+
+      <section id="nopbai" class="card">
+        <h2>7. Nộp bài</h2>
+        <p>
+          Kết quả trắc nghiệm và bài tập (kèm code) sẽ được gửi cho giáo viên.
+        </p>
+        <div id="summary" class="summary"></div>
+        <form id="submitForm" class="form">
+          <label
+            >Họ và tên
+            <input
+              id="fName"
+              required
+              maxlength="60"
+              placeholder="Nguyễn Văn A"
+          /></label>
+          <label
+            >Lớp <input id="fClass" required maxlength="20" placeholder="10A1"
+          /></label>
+          <button class="btn big" type="submit">📤 Nộp bài</button>
+        </form>
+        <div id="submitMsg" class="result neutral" hidden></div>
+      </section>
+    </main>
+
+    <footer>Bài 17 · Biến và lệnh gán · Tin học 10</footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/runmode/runmode.min.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
