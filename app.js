@@ -10,12 +10,12 @@ let state = { seen: {}, quiz: {}, code: {}, passed: {}, submitted: false };
 try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) { }
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { } };
 
-const SECTIONS = ["muctieu", "bien", "dattten", "kieu", "gan", "nhapxuat", "baitap", "nopbai"];
+const SECTIONS = ["muctieu", "print", "bien", "gan", "dattten", "kieu", "nhapxuat", "luyentap", "nopbai"];
 
 function sectionDone(id) {
-  if (MINI_IDS.includes(id)) return miniOk(id);
-  if (id === "baitap") return EXERCISES.every(e => state.passed[e.id]);
   if (id === "nopbai") return !!state.submitted;
+  const mine = EXERCISES.filter(e => e.sec === id);
+  if (mine.length) return mine.every(e => state.passed[e.id]);
   return !!state.seen[id];
 }
 function refreshProgress() {
@@ -291,72 +291,179 @@ nameInput.addEventListener("input", () => {
   b.onclick = () => { nameInput.value = t; nameInput.dispatchEvent(new Event("input")); };
   $("#nameChips").appendChild(b);
 });
-
-/* ========== Câu kiểm tra nhỏ cuối mỗi nội dung ========== */
-const MINI = {
-  bien: { q: "Biến trong Python là gì?", o: ["Một giá trị không bao giờ thay đổi", "Một tên gắn với một vùng nhớ chứa giá trị", "Một câu lệnh in ra màn hình", "Một loại dấu toán học"], a: 1,
-    e: "Biến là tên của vùng nhớ lưu giá trị, và giá trị đó có thể thay đổi trong quá trình chạy." },
-  dattten: { q: "Tên nào dưới đây đặt tên biến HỢP LỆ?", o: ["2lop", "ten hoc sinh", "so_luong", "for"], a: 2,
-    e: "2lop bắt đầu bằng chữ số, “ten hoc sinh” có dấu cách, “for” là từ khóa. Chỉ so_luong hợp lệ." },
-  kieu: { q: "Giá trị nào dưới đây thuộc kiểu xâu (str)?", o: ["15", "8.5", "\"15\"", "True"], a: 2,
-    e: "Giá trị đặt trong dấu nháy là xâu. 15 là int, 8.5 là float, True là bool." },
-  gan: { q: "Đoạn code sau in ra gì?", code: "a = 3\nb = 7\na = b\nb = a\nprint(a, b)", o: ["7 3", "3 7", "7 7", "3 3"], a: 2,
-    e: "Sau a = b thì a = 7 (giá trị 3 đã mất), nên b = a cũng cho 7. Cần biến trung gian để hoán đổi đúng." },
-  nhapxuat: { q: "Em gõ n = input() rồi nhập 12. Biến n thuộc kiểu nào?", o: ["int", "float", "str", "bool"], a: 2,
-    e: "input() luôn trả về xâu (str). Muốn tính toán phải dùng int(input()) hoặc float(input())." }
+/* ===== Minh họa từng bước: bấm "Bước tiếp" để xem biến thay đổi trong bộ nhớ ===== */
+const VIZ = {
+  bien: {
+    code: ['ten = "An"', 'tuoi = 15', 'diem = 8.5'],
+    steps: [
+      { vars: {}, msg: "Chưa chạy lệnh nào. Bộ nhớ còn trống. Bấm “Bước tiếp” nhé!" },
+      { vars: { ten: '"An"' }, changed: "ten", msg: "Máy tạo một hộp có nhãn <b>ten</b> và cất chữ <b>\"An\"</b> vào trong." },
+      { vars: { ten: '"An"', tuoi: "15" }, changed: "tuoi", msg: "Máy tạo thêm hộp <b>tuoi</b> và cất số <b>15</b> vào." },
+      { vars: { ten: '"An"', tuoi: "15", diem: "8.5" }, changed: "diem", msg: "Hộp thứ ba: <b>diem</b> chứa số <b>8.5</b>. Vậy là có 3 biến!" }
+    ]
+  },
+  gan: {
+    code: ["x = 5", "x = 9", "y = x + 1", "x = x + 1"],
+    steps: [
+      { vars: {}, msg: "Bộ nhớ còn trống. Bấm “Bước tiếp” để chạy dòng 1." },
+      { vars: { x: "5" }, changed: "x", msg: "<b>x = 5</b>: tạo hộp x, cất số 5 vào." },
+      { vars: { x: "9" }, changed: "x", msg: "<b>x = 9</b>: hộp x đã có rồi, máy <b>bỏ số 5 đi</b> và cất số 9 vào. Đây là <b>gán lại</b>." },
+      { vars: { x: "9", y: "10" }, changed: "y", msg: "<b>y = x + 1</b>: máy tính vế phải trước: x là 9, 9 + 1 = 10. Rồi cất 10 vào hộp y. Hộp x không đổi." },
+      { vars: { x: "10", y: "10" }, changed: "x", msg: "<b>x = x + 1</b>: lấy x hiện tại (9), cộng 1 được 10, rồi cất lại vào chính hộp x." }
+    ]
+  }
 };
-const MINI_IDS = Object.keys(MINI);
-const miniOk = id => state.quiz[id] === MINI[id].a;
-MINI_IDS.forEach(id => {
-  const q = MINI[id], sec = document.getElementById(id);
-  const d = document.createElement("div");
-  d.className = "q mini";
-  d.innerHTML = `<div class="q-title">✍️ Kiểm tra nhanh: ${esc(q.q)}</div>` + (q.code ? `<pre class="cm-s-bai17">${hl(q.code)}</pre>` : "") +
-    q.o.map((t, j) => `<button class="opt" data-j="${j}">${"ABCD"[j]}. ${esc(t)}</button>`).join("") + `<div class="explain" hidden></div>`;
-  const paint = () => {
-    const c = state.quiz[id];
-    $$(".opt", d).forEach((b, j) => {
-      b.classList.toggle("right", c === q.a && j === q.a);
-      b.classList.toggle("wrong", c === j && j !== q.a);
-    });
-    const ex = $(".explain", d);
-    ex.hidden = c === undefined;
-    ex.textContent = c === undefined ? "" : c === q.a ? "✅ Chính xác! " + q.e : "❌ Chưa đúng, em đọc lại phần trên rồi chọn lại nhé.";
+document.querySelectorAll(".viz").forEach(v => {
+  const data = VIZ[v.dataset.viz];
+  let i = 0;
+  v.innerHTML = `<div class="trace-body"><pre class="trace-code">${data.code.map((l, n) => `<span class="ln" data-n="${n + 1}">${hl(l)}</span>`).join("")}</pre>
+    <div class="mem"><div class="mem-title">🧠 Bộ nhớ máy tính</div><div class="mem-box"></div></div></div>
+    <div class="trace-msg"></div>
+    <div class="trace-btns"><button class="btn run">▶ Bước tiếp</button><button class="btn ghost">↺ Làm lại</button></div>`;
+  const [next, again] = $$("button", v);
+  const draw = () => {
+    const s = data.steps[i];
+    $(".mem-box", v).innerHTML = Object.entries(s.vars).map(([k, val]) =>
+      `<div class="var${s.changed === k ? " changed" : ""}"><div class="tag">${k}</div><div class="val">${esc(val)}</div></div>`).join("") || '<span class="cap">(trống)</span>';
+    $$(".ln", v).forEach((l, n) => { l.classList.toggle("cur", n + 1 === i); l.classList.toggle("past", n + 1 < i); });
+    $(".trace-msg", v).innerHTML = s.msg;
+    next.disabled = i >= data.steps.length - 1;
+    next.textContent = next.disabled ? "✓ Hết rồi" : "▶ Bước tiếp";
   };
-  $$(".opt", d).forEach(b => b.onclick = () => { state.quiz[id] = +b.dataset.j; save(); paint(); refreshProgress(); });
-  paint();
-  sec.appendChild(d);
+  next.onclick = () => { i++; draw(); };
+  again.onclick = () => { i = 0; draw(); };
+  draw();
 });
 
-/* ========== Bài tập lập trình ========== */
+/* ========== Bài thực hành cuối mỗi phần ========== */
+/* sec: phần chứa bài; goal: việc cần làm; steps: các bước; sample: ví dụ mẫu; must: code phải có */
 const EXERCISES = [
-  { id: "ex1", title: "Bài 1. Hoán đổi hai số",
-    desc: "Nhập hai số nguyên a và b (mỗi số một dòng). Hoán đổi giá trị của a và b rồi in ra màn hình dạng: <code>a b</code> (cách nhau một dấu cách).",
-    start: "a = int(input())\nb = int(input())\n# Hoán đổi a và b ở đây\n\nprint(a, b)\n",
-    tests: [{ i: ["3", "7"], o: "7 3" }, { i: ["10", "-2"], o: "-2 10" }, { i: ["0", "0"], o: "0 0" }] },
-  { id: "ex2", title: "Bài 2. Hình chữ nhật",
-    desc: "Nhập chiều dài và chiều rộng (số nguyên, mỗi số một dòng). In chu vi ở dòng thứ nhất, diện tích ở dòng thứ hai.",
-    start: "dai = int(input())\nrong = int(input())\n# Tạo biến chu_vi và dien_tich bằng lệnh gán\n\n",
-    tests: [{ i: ["5", "3"], o: "16\n15" }, { i: ["10", "10"], o: "40\n100" }, { i: ["1", "2"], o: "6\n2" }] },
-  { id: "ex3", title: "Bài 3. Lời chào",
-    desc: "Nhập tên (xâu) và tuổi (số nguyên). In đúng dòng: <code>Xin chao An, nam sau ban 16 tuoi</code> (với An là tên, 16 là tuổi cộng 1, nhập tuổi 15). Gợi ý: <code>print(\"Xin chao \" + ten + \", nam sau ban\", tuoi + 1, \"tuoi\")</code>.",
-    start: "ten = input()\ntuoi = int(input())\n\n",
-    tests: [{ i: ["An", "15"], o: "Xin chao An, nam sau ban 16 tuoi" }, { i: ["Binh", "17"], o: "Xin chao Binh, nam sau ban 18 tuoi" }] },
-  { id: "ex4", title: "Bài 4. Điểm trung bình",
-    desc: "Nhập 3 điểm (số thực, mỗi số một dòng). Gán điểm trung bình vào biến <code>tb</code> rồi in <code>round(tb, 2)</code>.",
-    start: "d1 = float(input())\nd2 = float(input())\nd3 = float(input())\n\n",
-    tests: [{ i: ["7", "8", "10"], o: "8.33" }, { i: ["6", "6", "6"], o: "6.0" }, { i: ["9.5", "8", "7.25"], o: "8.25" }] },
-  { id: "ex5", title: "Bài 5 (thử thách). Đổi giây ra giờ, phút, giây",
-    desc: "Nhập số giây <code>t</code> (số nguyên). In ra ba số: giờ, phút, giây còn lại, cách nhau dấu cách. Gợi ý: <code>//</code> là chia lấy phần nguyên, <code>%</code> là chia lấy dư. Ví dụ 3725 giây cho kết quả <code>1 2 5</code>.",
-    start: "t = int(input())\n\n",
-    tests: [{ i: ["3725"], o: "1 2 5" }, { i: ["59"], o: "0 0 59" }, { i: ["7200"], o: "2 0 0" }] }
+  { id: "th1", sec: "print", title: "Thực hành 1. Lệnh print đầu tiên",
+    goal: "Viết lệnh <code>print</code> để máy in ra dòng chữ <b>Xin chào Python</b>.",
+    steps: ["Gõ <code>print(</code>", "Gõ chữ cần in, đặt trong dấu nháy: <code>\"Xin chào Python\"</code>", "Gõ dấu <code>)</code> để đóng lại, rồi bấm <b>Chấm bài</b>."],
+    sample: { out: "Xin chào Python" },
+    hint: "Cả dòng là: print(\"Xin chào Python\")",
+    start: "# Gõ lệnh print ở dưới\n\n",
+    must: [[/print\s*\(/, "Em cần dùng lệnh print."]],
+    tests: [{ i: [], o: "Xin chào Python" }] },
+
+  { id: "th2", sec: "print", title: "Thực hành 2. In kết quả phép tính",
+    goal: "Dùng <code>print</code> để máy tự tính rồi in ra: dòng 1 là <b>12 + 8</b>, dòng 2 là <b>6 × 7</b>.",
+    steps: ["Dòng 1: <code>print(12 + 8)</code>", "Dòng 2: viết lệnh print với phép nhân (dùng dấu <code>*</code>).", "Không gõ sẵn kết quả 20 và 42, hãy để máy tính!"],
+    sample: { out: "20\n42" },
+    hint: "print(6 * 7)",
+    start: "# Viết 2 lệnh print ở dưới\n\n",
+    must: [[/12\s*\+\s*8/, "Hãy viết phép tính 12 + 8 trong print."], [/6\s*\*\s*7/, "Hãy viết phép tính 6 * 7 trong print."]],
+    tests: [{ i: [], o: "20\n42" }] },
+
+  { id: "th3", sec: "bien", title: "Thực hành 3. Tạo biến",
+    goal: "Tạo hai biến rồi in giá trị của chúng ra màn hình.",
+    steps: ["Gán cho biến <code>ten</code> giá trị <code>\"Lan\"</code>.", "Gán cho biến <code>tuoi</code> giá trị <code>16</code>.", "Dùng <code>print</code> để in ra <code>ten</code> và <code>tuoi</code> (không có dấu nháy)."],
+    sample: { out: "Lan 16" },
+    hint: "print(ten, tuoi) sẽ in hai giá trị cách nhau một dấu cách.",
+    start: "# Viết 3 lệnh theo các bước ở trên\n\n",
+    must: [[/\bten\s*=/, "Em chưa tạo biến ten."], [/\btuoi\s*=/, "Em chưa tạo biến tuoi."]],
+    tests: [{ i: [], o: "Lan 16" }] },
+
+  { id: "th4", sec: "gan", title: "Thực hành 4. Cộng điểm",
+    goal: "Bạn Lan có 7 điểm. Cô thưởng thêm 2 điểm. Dùng lệnh gán để cập nhật biến <code>diem</code> rồi in ra.",
+    steps: ["Giữ dòng <code>diem = 7</code>.", "Cộng thêm 2 bằng <code>diem = diem + 2</code>.", "In <code>diem</code> ra màn hình."],
+    sample: { out: "9" },
+    hint: "Biến diem xuất hiện ở cả hai vế: diem = diem + 2",
+    start: "diem = 7\n# Viết tiếp ở dưới\n\n",
+    must: [[/\bdiem\s*(\+=|=\s*diem\s*\+)/, "Hãy dùng diem = diem + 2 để cộng thêm điểm."]],
+    tests: [{ i: [], o: "9" }] },
+
+  { id: "th5", sec: "gan", title: "Thực hành 5. Hình chữ nhật",
+    goal: "Cho chiều dài và chiều rộng. Dùng lệnh gán để tính chu vi và diện tích.",
+    steps: ["Gán <code>chu_vi = (dai + rong) * 2</code>.", "Gán <code>dien_tich</code> = dài × rộng.", "In <code>chu_vi</code> ở dòng 1, <code>dien_tich</code> ở dòng 2."],
+    sample: { out: "16\n15" },
+    hint: "dien_tich = dai * rong",
+    start: "dai = 5\nrong = 3\n# Viết tiếp ở dưới\n\n",
+    must: [[/\bchu_vi\s*=/, "Em chưa gán biến chu_vi."], [/\bdien_tich\s*=/, "Em chưa gán biến dien_tich."]],
+    tests: [{ i: [], o: "16\n15" }] },
+
+  { id: "th6", sec: "dattten", title: "Thực hành 6. Sửa tên biến sai",
+    goal: "Đoạn code dưới đây có 3 tên biến sai quy tắc nên bị lỗi. Hãy sửa tên cho đúng để chương trình chạy được.",
+    steps: ["Tìm 3 tên sai (bắt đầu bằng số, có dấu cách, có dấu <code>-</code>).", "Sửa lại, nhớ sửa <b>cả ở dòng print</b> cho khớp tên mới.", "Kết quả in ra phải giống ví dụ."],
+    sample: { out: "Lan 10A1 9" },
+    hint: "Tên đúng gợi ý: <code>lop</code>, <code>ten_hs</code>, <code>diem_toan</code>.",
+    start: "2lop = \"10A1\"\nten hs = \"Lan\"\ndiem-toan = 9\nprint(ten_hs, 2lop, diem-toan)\n",
+    tests: [{ i: [], o: "Lan 10A1 9" }] },
+
+  { id: "th7", sec: "kieu", title: "Thực hành 7. Số và chữ",
+    goal: "Dòng 1 in ra <b>8</b> (cộng hai số). Dòng 2 in ra <b>53</b> (ghép hai chữ \"5\" và \"3\").",
+    steps: ["Dòng 1 đã viết sẵn: <code>print(5 + 3)</code>.", "Dòng 2: đặt 5 và 3 trong dấu nháy để chúng thành chữ, rồi dùng <code>+</code> để ghép."],
+    sample: { out: "8\n53" },
+    hint: "print(\"5\" + \"3\")",
+    start: "print(5 + 3)\n# Viết dòng thứ hai ở dưới\n\n",
+    must: [[/["']5["']\s*\+\s*["']3["']/, "Hãy viết \"5\" + \"3\" (có dấu nháy) để ghép chữ."]],
+    tests: [{ i: [], o: "8\n53" }] },
+
+  { id: "th8", sec: "nhapxuat", title: "Thực hành 8. Chào bạn",
+    goal: "Nhập tên của em, rồi máy chào lại em.",
+    steps: ["Dòng 1 đã có sẵn: nhập tên vào biến <code>ten</code>.", "In ra: <code>Xin chao</code> rồi đến tên vừa nhập."],
+    sample: { i: ["An"], out: "Xin chao An" },
+    hint: "print(\"Xin chao\", ten)",
+    start: "ten = input()\n# Viết lệnh print ở dưới\n\n",
+    tests: [{ i: ["An"], o: "Xin chao An" }, { i: ["Binh"], o: "Xin chao Binh" }] },
+
+  { id: "th9", sec: "nhapxuat", title: "Thực hành 9. Tổng hai số",
+    goal: "Nhập hai số nguyên a và b (mỗi số một dòng). In tổng của chúng.",
+    steps: ["Hai dòng đầu đã đọc <code>a</code> và <code>b</code> (có <code>int</code> để đổi thành số).", "Gán <code>tong = a + b</code>.", "In <code>tong</code>."],
+    sample: { i: ["3", "5"], out: "8" },
+    hint: "Nếu quên int(), 3 + 5 sẽ ra \"35\" chứ không phải 8.",
+    start: "a = int(input())\nb = int(input())\n# Viết tiếp ở dưới\n\n",
+    tests: [{ i: ["3", "5"], o: "8" }, { i: ["10", "-4"], o: "6" }, { i: ["0", "0"], o: "0" }] },
+
+  { id: "lt1", sec: "luyentap", title: "Luyện tập 1. Giới thiệu bản thân",
+    goal: "Nhập tên và tuổi. In ra một câu giới thiệu.",
+    steps: ["Nhập <code>ten</code> (chữ) và <code>tuoi</code> (số nguyên).", "In đúng dạng: <code>Toi la An, 15 tuoi</code>."],
+    sample: { i: ["An", "15"], out: "Toi la An, 15 tuoi" },
+    hint: "print(\"Toi la \" + ten + \",\", tuoi, \"tuoi\")",
+    start: "ten = input()\ntuoi = int(input())\n# Viết lệnh print ở dưới\n\n",
+    tests: [{ i: ["An", "15"], o: "Toi la An, 15 tuoi" }, { i: ["Binh", "17"], o: "Toi la Binh, 17 tuoi" }] },
+
+  { id: "lt2", sec: "luyentap", title: "Luyện tập 2. Diện tích hình vuông",
+    goal: "Nhập độ dài cạnh hình vuông (số nguyên). In diện tích.",
+    steps: ["Nhập <code>canh</code> bằng <code>int(input())</code>.", "Gán <code>dien_tich = canh * canh</code>.", "In <code>dien_tich</code>."],
+    sample: { i: ["4"], out: "16" },
+    hint: "dien_tich = canh * canh",
+    start: "canh = int(input())\n# Viết tiếp ở dưới\n\n",
+    must: [[/\bdien_tich\s*=/, "Em chưa gán biến dien_tich."]],
+    tests: [{ i: ["4"], o: "16" }, { i: ["10"], o: "100" }, { i: ["1"], o: "1" }] },
+
+  { id: "lt3", sec: "luyentap", title: "Luyện tập 3. Mua bút",
+    goal: "Mỗi cây bút giá 3000 đồng. Nhập số bút muốn mua, in số tiền phải trả.",
+    steps: ["Gán <code>gia = 3000</code>.", "Nhập <code>so_but</code> bằng <code>int(input())</code>.", "Gán <code>thanh_tien = gia * so_but</code> rồi in ra."],
+    sample: { i: ["5"], out: "15000" },
+    hint: "thanh_tien = gia * so_but",
+    start: "# Viết 4 lệnh theo các bước ở trên\n\n",
+    must: [[/\bgia\s*=/, "Em chưa gán biến gia."], [/\bthanh_tien\s*=/, "Em chưa gán biến thanh_tien."]],
+    tests: [{ i: ["5"], o: "15000" }, { i: ["1"], o: "3000" }, { i: ["0"], o: "0" }] },
+
+  { id: "lt4", sec: "luyentap", title: "Luyện tập 4. Điểm trung bình hai môn",
+    goal: "Nhập điểm Toán và điểm Văn (số thực, mỗi số một dòng). In điểm trung bình của hai môn.",
+    steps: ["Nhập <code>toan</code> và <code>van</code> bằng <code>float(input())</code>.", "Gán <code>tb = (toan + van) / 2</code>.", "In <code>tb</code>."],
+    sample: { i: ["8", "6"], out: "7.0" },
+    hint: "Nhớ dùng float(input()) vì điểm có thể có phần lẻ. Dấu / là phép chia.",
+    start: "# Viết các lệnh theo các bước ở trên\n\n",
+    must: [[/\btb\s*=/, "Em chưa gán biến tb."]],
+    tests: [{ i: ["8", "6"], o: "7.0" }, { i: ["9", "10"], o: "9.5" }, { i: ["5.5", "7"], o: "6.25" }] }
 ];
-const norm = s => s.split("\n").map(l => l.trimEnd()).join("\n").trim();
+const norm = s => s.normalize("NFC").split("\n").map(l => l.trimEnd()).join("\n").trim();
 
 EXERCISES.forEach(ex => {
   const d = document.createElement("div");
   d.className = "ex";
-  d.innerHTML = `<div class="ex-head"><h3>${ex.title}<span class="badge">chưa đạt</span></h3><p>${ex.desc}</p></div>
+  const sample = ex.sample.i
+    ? `<div><b>Nhập:</b><pre>${esc(ex.sample.i.join("\n"))}</pre></div><div><b>In ra:</b><pre>${esc(ex.sample.out)}</pre></div>`
+    : `<div><b>In ra:</b><pre>${esc(ex.sample.out)}</pre></div>`;
+  d.innerHTML = `<div class="ex-head"><h3>🧪 ${ex.title}<span class="badge">chưa đạt</span></h3>
+      <p class="ex-goal"><b>Yêu cầu:</b> ${ex.goal}</p>
+      <ol class="ex-steps">${ex.steps.map(s => `<li>${s}</li>`).join("")}</ol>
+      <div class="ex-sample">${sample}</div>
+      <details class="ex-hint"><summary>Gợi ý</summary><p>${ex.hint}</p></details></div>
     <div class="ex-body"><textarea spellcheck="false"></textarea>
     <div class="demo-bar"><button class="btn run">▶ Chạy thử</button><button class="btn">✔ Chấm bài</button><button class="btn ghost">Làm lại từ đầu</button></div>
     <div class="console"></div></div>
@@ -378,31 +485,39 @@ EXERCISES.forEach(ex => {
   btn.onclick = async () => {
     btn.disabled = true; btn.textContent = "Đang chấm…"; res.innerHTML = "";
     try {
+      const code = ed.value;
+      const miss = (ex.must || []).find(([re]) => !re.test(code));
       let pass = 0, html = "";
       for (const t of ex.tests) {
-        const r = await runPy(ed.value, t.i, false);
+        const r = await runPy(code, t.i, false);
         const ok = !r.err && norm(r.out) === norm(t.o);
         if (ok) pass++;
-        html += `<div class="test"><span>${ok ? "✅" : "❌"}</span><div>Nhập: <code>${esc(t.i.join(" ⏎ "))}</code>` +
+        html += `<div class="test"><span>${ok ? "✅" : "❌"}</span><div>` + (t.i.length ? `Nhập: <code>${esc(t.i.join(" ⏎ "))}</code>` : "Kết quả") +
           (ok ? "" : `<br>Mong đợi: <pre>${esc(t.o)}</pre>Chương trình in: <pre>${esc(r.out.trim() || "(trống)")}</pre>` + (r.err ? `<b style="color:var(--bad)">${esc(r.err)}</b>` : "")) +
           `</div></div>`;
       }
-      const all = pass === ex.tests.length;
-      state.passed[ex.id] = all; state.code[ex.id] = ed.value; save(); mark();
-      res.innerHTML = `<div class="result ${all ? "ok" : "bad"}">${all ? "🎉 Đạt tất cả" : "Chưa đạt"} (${pass}/${ex.tests.length} bộ dữ liệu)</div>` + html + "<br>";
+      const all = pass === ex.tests.length && !miss;
+      state.passed[ex.id] = all; state.code[ex.id] = code; save(); mark();
+      res.innerHTML = `<div class="result ${all ? "ok" : "bad"}">${all ? "🎉 Đạt rồi!" : "Chưa đạt"} (${pass}/${ex.tests.length} kết quả đúng)</div>` +
+        (miss ? `<div class="result bad">${miss[1]}</div>` : "") + html + "<br>";
       refreshProgress();
     } catch (e) { res.innerHTML = `<div class="result bad">${esc(e.message)}</div>`; }
     btn.disabled = false; btn.textContent = "✔ Chấm bài";
   };
-  $("#exercises").appendChild(d);
+  const sec = document.getElementById(ex.sec);
+  let box = $(".practice", sec);
+  if (!box) {
+    box = document.createElement("div");
+    box.className = "practice";
+    box.innerHTML = `<div class="practice-title">🧪 Đến lượt em thực hành</div>`;
+    sec.appendChild(box);
+  }
+  box.appendChild(d);
 });
 
 /* ========== Tổng kết & nộp bài ========== */
 function collect() {
   return {
-    quizScore: MINI_IDS.filter(miniOk).length,
-    quizTotal: MINI_IDS.length,
-    quizAnswers: Object.fromEntries(MINI_IDS.map(id => [id, state.quiz[id] ?? null])),
     exercises: EXERCISES.map(e => ({ id: e.id, passed: !!state.passed[e.id], code: state.code[e.id] ?? "" }))
   };
 }
@@ -410,8 +525,7 @@ function renderSummary() {
   const c = collect();
   const passed = c.exercises.filter(e => e.passed).length;
   $("#summary").innerHTML =
-    `<div class="stat">Câu kiểm tra nhỏ<b>${c.quizScore}/${c.quizTotal}</b></div>` +
-    `<div class="stat">Bài tập đạt<b>${passed}/${EXERCISES.length}</b></div>`;
+    `<div class="stat">Bài thực hành đạt<b>${passed}/${EXERCISES.length}</b></div>`;
 }
 let fbReady = null;
 function loadFirebase() {

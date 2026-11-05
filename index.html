@@ -23,58 +23,112 @@
     </header>
 
     <nav id="sidebar" class="sidebar">
-      <a href="#muctieu" data-sec="muctieu">🎯 Mục tiêu</a>
-      <a href="#bien" data-sec="bien">1. Biến là gì?</a>
-      <a href="#dattten" data-sec="dattten">2. Quy tắc đặt tên</a>
-      <a href="#kieu" data-sec="kieu">3. Kiểu dữ liệu</a>
-      <a href="#gan" data-sec="gan">4. Lệnh gán</a>
-      <a href="#nhapxuat" data-sec="nhapxuat">5. Nhập, xuất dữ liệu</a>
-      <a href="#baitap" data-sec="baitap">6. Bài tập lập trình</a>
-      <a href="#nopbai" data-sec="nopbai">7. Nộp bài</a>
+      <a href="#muctieu" data-sec="muctieu">🎯 Bắt đầu</a>
+      <a href="#print" data-sec="print">1. Lệnh print</a>
+      <a href="#bien" data-sec="bien">2. Biến là gì?</a>
+      <a href="#gan" data-sec="gan">3. Lệnh gán</a>
+      <a href="#dattten" data-sec="dattten">4. Đặt tên biến</a>
+      <a href="#kieu" data-sec="kieu">5. Số và chữ</a>
+      <a href="#nhapxuat" data-sec="nhapxuat">6. Nhập dữ liệu</a>
+      <a href="#luyentap" data-sec="luyentap">7. Luyện tập</a>
+      <a href="#nopbai" data-sec="nopbai">8. Nộp bài</a>
     </nav>
 
     <main>
       <section id="muctieu" class="card hero">
-        <h1>Biến và lệnh gán trong Python</h1>
-        <p>Sau bài này em sẽ:</p>
-        <ul class="goals">
-          <li>Giải thích được <b>biến</b> là gì và biến được lưu ở đâu.</li>
-          <li>Đặt tên biến đúng quy tắc, nhận biết các kiểu dữ liệu cơ bản.</li>
-          <li>
-            Dùng <b>lệnh gán</b> <code>=</code> để lưu và cập nhật giá trị, hoán
-            đổi hai biến.
-          </li>
-          <li>
-            Nhập dữ liệu bằng <code>input()</code>, xuất bằng
-            <code>print()</code> và viết chương trình nhỏ hoàn chỉnh.
-          </li>
-        </ul>
-        <p class="hint">
-          💡 Mọi khung code trong bài đều <b>chạy được ngay</b>. Hãy sửa thử và
-          bấm “Chạy”. Lần chạy đầu tiên cần vài giây để tải Python.
+        <h1>Làm quen với Python</h1>
+        <p>
+          Chào mừng em đến với bài lập trình đầu tiên! Em <b>chưa cần biết gì</b>
+          về Python, chúng ta học từng bước nhỏ.
         </p>
-        <p class="legend">
-          🎨 Màu trong code:
-          <span class="cm-s-bai17 lg"
-            ><span class="cm-variable">tên biến</span>
-            <span class="cm-number">số</span>
-            <span class="cm-string">"xâu"</span>
-            <span class="cm-keyword">từ khóa</span>
-            <span class="cm-builtin">print</span>
-            <span class="cm-comment"># ghi chú</span></span
-          >
-          · Gõ dấu <code>:</code> rồi Enter, máy tự thụt lề; Tab để thụt,
-          Shift+Tab để lùi.
+
+        <h3>Hôm nay em sẽ học</h3>
+        <div class="road">
+          <div><b>1</b>Cho máy in chữ ra màn hình</div>
+          <div><b>2</b>Biến: chiếc hộp để máy nhớ dữ liệu</div>
+          <div><b>3</b>Lệnh gán: cất giá trị vào hộp</div>
+          <div><b>4</b>Cách đặt tên cho biến</div>
+          <div><b>5</b>Phân biệt số và chữ</div>
+          <div><b>6</b>Gõ dữ liệu vào cho máy</div>
+        </div>
+
+        <h3>Cách học mỗi phần</h3>
+        <div class="steps-learn">
+          <div><b>📖 Đọc</b><span>lí thuyết ngắn</span></div>
+          <div><b>▶ Thử</b><span>bấm “Chạy” ở các ví dụ</span></div>
+          <div><b>🧪 Làm</b><span>bài thực hành cuối phần</span></div>
+        </div>
+        <p class="hint">
+          💡 Khung đen là nơi viết code. Bấm <b>▶ Chạy</b> để xem máy làm gì. Lần
+          chạy đầu cần vài giây để tải Python, em chờ chút nhé.
         </p>
       </section>
 
       <!-- 1 -->
-      <section id="bien" class="card">
-        <h2>1. Biến là gì?</h2>
+      <section id="print" class="card">
+        <h2>1. Lệnh print: cho máy “nói”</h2>
         <p>
-          Khi chạy chương trình, máy tính cần <b>nhớ</b> dữ liệu như tuổi, điểm
-          số, tên… Nơi nhớ đó là <b>bộ nhớ</b>. Để dùng dữ liệu, ta đặt cho một
-          ô nhớ một cái <b>tên</b>. Ô nhớ có tên đó gọi là <b>biến</b>.
+          <b>Lập trình</b> là viết các <b>lệnh</b> để máy tính làm theo. Lệnh đầu
+          tiên em học là <code class="big">print( )</code>: bảo máy
+          <b>in</b> thứ gì đó ra màn hình.
+        </p>
+
+        <div class="flow">
+          <div class="flow-box code">print("Xin chào")</div>
+          <div class="flow-arrow">➜ máy in ra ➜</div>
+          <div class="flow-box screen">Xin chào</div>
+        </div>
+
+        <p>Em đặt thứ cần in <b>trong dấu ngoặc tròn</b>. Có 3 cách hay dùng:</p>
+        <div class="table-wrap">
+          <table>
+            <tr>
+              <th>Em viết</th>
+              <th>Máy in ra</th>
+              <th>Giải thích</th>
+            </tr>
+            <tr>
+              <td><code>print("Xin chào")</code></td>
+              <td><code>Xin chào</code></td>
+              <td>In <b>chữ</b>: chữ phải đặt trong dấu nháy <code>" "</code></td>
+            </tr>
+            <tr>
+              <td><code>print(2 + 3)</code></td>
+              <td><code>5</code></td>
+              <td>In <b>số</b> (không nháy): máy tự tính rồi in kết quả</td>
+            </tr>
+            <tr>
+              <td><code>print("An", 15)</code></td>
+              <td><code>An 15</code></td>
+              <td>In nhiều thứ: ngăn cách bằng <b>dấu phẩy</b></td>
+            </tr>
+          </table>
+        </div>
+        <div class="note">
+          <b>Nhớ:</b> có nháy <code>"2 + 3"</code> thì máy in nguyên chữ;
+          không nháy <code>2 + 3</code> thì máy tính ra <code>5</code>. Phép
+          tính dùng <code>+</code> <code>-</code> <code>*</code> (nhân)
+          <code>/</code> (chia).
+        </div>
+
+        <h3>Thử ngay: sửa chữ trong nháy rồi bấm Chạy</h3>
+        <div class="demo" data-id="d0">
+          <textarea spellcheck="false">
+print("Xin chào")
+print(2 + 3)
+print("2 + 3")
+print("An", 15)</textarea
+          >
+        </div>
+      </section>
+
+      <!-- 2 -->
+      <section id="bien" class="card">
+        <h2>2. Biến là gì?</h2>
+        <p>
+          Máy tính cần <b>nhớ</b> dữ liệu như tên, tuổi, điểm… Muốn nhớ, máy lấy
+          một <b>chiếc hộp</b>, dán lên đó một <b>nhãn (tên)</b> rồi cất giá trị
+          vào trong. Chiếc hộp có tên ấy gọi là <b>biến</b>.
         </p>
         <div class="analogy">
           <div class="box-demo">
@@ -90,54 +144,85 @@
             <div class="val">8.5</div>
           </div>
         </div>
-        <p class="cap">
-          Hình dung: mỗi biến là một chiếc hộp có <b>nhãn (tên)</b> và bên trong
-          chứa một <b>giá trị</b>. Giá trị có thể thay bằng giá trị khác, đó là
-          lý do gọi là “biến”.
-        </p>
         <div class="note">
-          <b>Ghi nhớ:</b> Biến = tên + giá trị. Trong Python, em không cần khai
-          báo trước, chỉ cần gán giá trị là biến xuất hiện.
+          <b>Biến = tên (nhãn) + giá trị (thứ trong hộp).</b> Giá trị có thể thay
+          đổi nên mới gọi là “biến”.
         </div>
 
-        <h3>Thử tạo biến</h3>
+        <h3>Xem máy tạo biến từng bước</h3>
+        <p class="cap">Bấm “Bước tiếp” và nhìn bên phải: hộp mới xuất hiện.</p>
+        <div class="viz" data-viz="bien"></div>
+
+        <h3>Thử ngay: dùng biến trong print</h3>
+        <p class="cap">
+          Khi in biến thì <b>không</b> đặt trong nháy: máy sẽ lấy giá trị trong
+          hộp ra in.
+        </p>
         <div class="demo" data-id="d1">
           <textarea spellcheck="false">
 ten = "An"
 tuoi = 15
+print(ten)
 print(ten, "năm nay", tuoi, "tuổi")</textarea
           >
         </div>
       </section>
 
-      <!-- 2 -->
-      <section id="dattten" class="card">
-        <h2>2. Quy tắc đặt tên biến</h2>
-        <ul>
-          <li>
-            Chỉ gồm <b>chữ cái không dấu</b> (a–z, A–Z), <b>chữ số</b> (0–9) và
-            dấu gạch dưới <code>_</code>.
-          </li>
-          <li><b>Không</b> bắt đầu bằng chữ số.</li>
-          <li>
-            <b>Không</b> có dấu cách hoặc ký tự đặc biệt (<code>- + * # @</code
-            >…).
-          </li>
-          <li>
-            <b>Không</b> trùng với từ khóa của Python (<code>if</code>,
-            <code>for</code>, <code>while</code>, <code>print</code>…).
-          </li>
-          <li>
-            Python <b>phân biệt chữ hoa, chữ thường</b>: <code>Tuoi</code> và
-            <code>tuoi</code> là hai biến khác nhau.
-          </li>
-        </ul>
+      <!-- 3 -->
+      <section id="gan" class="card">
+        <h2>3. Lệnh gán: cất giá trị vào hộp</h2>
+        <p>Dấu <code>=</code> là cách để <b>gán</b> (cất) giá trị vào biến:</p>
+        <p><code class="big">tên_biến = giá_trị</code></p>
+        <div class="note warn">
+          Dấu <code>=</code> trong Python <b>không phải</b> “bằng nhau” như trong
+          Toán. Nó nghĩa là: <b>tính vế phải trước, rồi cất kết quả vào biến ở vế trái</b>.
+        </div>
+
+        <h3>Xem máy chạy từng lệnh gán</h3>
+        <p class="cap">
+          Chú ý dòng 2 (gán lại) và dòng 4 (biến <code>x</code> nằm ở cả hai vế).
+        </p>
+        <div class="viz" data-viz="gan"></div>
+
+        <h3>Thử ngay</h3>
+        <div class="demo" data-id="d3">
+          <textarea spellcheck="false">
+x = 5
+print(x)
+x = 9        # gán lại: số 5 bị thay bằng 9
+print(x)
+y = x + 1
+print(y)
+x = x + 1    # lấy x cộng 1 rồi cất lại vào x
+print(x)</textarea
+          >
+        </div>
         <div class="note">
-          <b>Nên:</b> đặt tên gợi nhớ ý nghĩa, ví dụ <code>chieu_dai</code>,
-          <code>diem_toan</code> thay vì <code>a1</code>, <code>x</code>.
+          <b>Tóm tắt:</b> máy chạy lệnh <b>từ trên xuống dưới</b>, mỗi lệnh gán
+          chỉ thay đổi biến ở bên trái dấu <code>=</code>. Chữ sau dấu
+          <code>#</code> là ghi chú, máy bỏ qua.
+        </div>
+      </section>
+
+      <!-- 4 -->
+      <section id="dattten" class="card">
+        <h2>4. Cách đặt tên biến</h2>
+        <p>Tên biến phải theo luật, nếu không máy sẽ báo lỗi:</p>
+        <div class="rules">
+          <div class="rule good">✅ Gồm chữ cái <b>không dấu</b>, chữ số và dấu gạch dưới <code>_</code></div>
+          <div class="rule bad">❌ <b>Không</b> bắt đầu bằng chữ số: <code>2lop</code></div>
+          <div class="rule bad">❌ <b>Không</b> có dấu cách: <code>ten hs</code> (dùng <code>ten_hs</code>)</div>
+          <div class="rule bad">❌ <b>Không</b> có ký tự đặc biệt: <code>diem-toan</code></div>
+          <div class="rule bad">❌ <b>Không</b> trùng từ khóa Python: <code>for</code>, <code>if</code>, <code>while</code>…</div>
+          <div class="rule good">✅ Chữ hoa khác chữ thường: <code>Tuoi</code> và <code>tuoi</code> là hai biến khác nhau</div>
+        </div>
+        <div class="note">
+          <b>Nên:</b> đặt tên dễ hiểu, ví dụ <code>chieu_dai</code>,
+          <code>diem_toan</code>.
         </div>
 
         <h3>Máy kiểm tra tên biến</h3>
+        <p class="cap">Gõ một tên hoặc bấm vào tên mẫu bên dưới.</p>
         <div class="checker">
           <input
             id="nameInput"
@@ -152,18 +237,18 @@ print(ten, "năm nay", tuoi, "tuổi")</textarea
         <div class="chips" id="nameChips"></div>
       </section>
 
-      <!-- 3 -->
+      <!-- 5 -->
       <section id="kieu" class="card">
-        <h2>3. Kiểu dữ liệu cơ bản</h2>
+        <h2>5. Số và chữ</h2>
         <p>
-          Mỗi giá trị có một <b>kiểu</b>. Kiểu quyết định giá trị đó dùng như
-          thế nào (cộng số, ghép chữ…).
+          Máy phân biệt hai loại giá trị chính. Mỗi loại gọi là một
+          <b>kiểu dữ liệu</b>:
         </p>
         <div class="table-wrap">
           <table>
             <tr>
               <th>Kiểu</th>
-              <th>Ý nghĩa</th>
+              <th>Là gì?</th>
               <th>Ví dụ</th>
             </tr>
             <tr>
@@ -173,130 +258,53 @@ print(ten, "năm nay", tuoi, "tuổi")</textarea
             </tr>
             <tr>
               <td><code>float</code></td>
-              <td>Số thực (có phần thập phân)</td>
+              <td>Số thực (có phần lẻ)</td>
               <td><code>8.5</code>, <code>3.14</code></td>
             </tr>
             <tr>
               <td><code>str</code></td>
-              <td>Xâu ký tự (đặt trong nháy)</td>
-              <td><code>"An"</code>, <code>'lop 10A'</code></td>
-            </tr>
-            <tr>
-              <td><code>bool</code></td>
-              <td>Đúng / Sai</td>
-              <td><code>True</code>, <code>False</code></td>
+              <td>Chữ (xâu ký tự), luôn đặt trong nháy</td>
+              <td><code>"An"</code>, <code>"15"</code></td>
             </tr>
           </table>
         </div>
-        <div class="note">
-          <b>Lưu ý:</b> <code>"15"</code> (có nháy) là xâu, còn
-          <code>15</code> là số. Hai thứ này hành xử khác nhau!
+        <div class="note warn">
+          <b>Dễ nhầm:</b> <code>15</code> là <b>số</b>, còn <code>"15"</code> (có
+          nháy) là <b>chữ</b>. Số thì <b>cộng</b> được, chữ thì <b>ghép</b> lại
+          với nhau.
         </div>
 
-        <h3>Hàm type() cho biết kiểu</h3>
+        <h3>Thử ngay: đoán kết quả trước khi chạy</h3>
         <div class="demo" data-id="d2">
           <textarea spellcheck="false">
-a = 15
-b = 8.5
-c = "15"
-d = (a > 10)
-print(type(a), type(b), type(c), type(d))
-print(a + a)    # cộng số
-print(c + c)    # ghép xâu: thử đoán kết quả trước khi chạy!</textarea
+print(5 + 3)        # cộng hai số
+print("5" + "3")    # ghép hai chữ
+print(type(5), type(2.5), type("5"))   # type() cho biết kiểu</textarea
           >
         </div>
       </section>
 
-      <!-- 4 -->
-      <section id="gan" class="card">
-        <h2>4. Lệnh gán</h2>
-        <p>Cú pháp: <code class="big">tên_biến = biểu_thức</code></p>
-        <p>
-          Dấu <code>=</code> trong Python <b>không phải</b> “bằng nhau” như
-          trong Toán. Nó có nghĩa:
-          <b>tính vế phải trước, rồi lưu kết quả vào biến ở vế trái</b>.
-        </p>
-
-        <h3>4.1. Gán và gán lại</h3>
-        <div class="demo" data-id="d3">
-          <textarea spellcheck="false">
-x = 5
-print(x)
-x = 9        # gán lại: giá trị cũ 5 bị thay bằng 9
-print(x)
-y = x * 2 + 1
-print(y)</textarea
-          >
-        </div>
-
-        <h3>4.2. Biến xuất hiện ở cả hai vế</h3>
-        <p>
-          Lệnh <code>a = a + 1</code> không vô lý. Máy lấy giá trị hiện tại của
-          <code>a</code>, cộng 1, rồi lưu lại vào <code>a</code>.
-        </p>
-        <div class="demo" data-id="d4">
-          <textarea spellcheck="false">
-diem = 7
-diem = diem + 1     # tăng thêm 1
-print(diem)
-diem += 2           # viết gọn của diem = diem + 2
-print(diem)</textarea
-          >
-        </div>
-
-        <h3>4.3. Gán nhiều biến cùng lúc</h3>
-        <div class="demo" data-id="d5">
-          <textarea spellcheck="false">
-a, b = 3, 7        # a = 3 và b = 7
-c = d = 0           # cùng nhận giá trị 0
-print(a, b, c, d)</textarea
-          >
-        </div>
-
-        <h3>4.4. Hoán đổi giá trị hai biến</h3>
-        <p>
-          Giả sử <code>a = 3</code>, <code>b = 7</code>. Nếu viết
-          <code>a = b</code> rồi <code>b = a</code> thì cả hai đều thành 7, vì
-          giá trị cũ của <code>a</code> đã mất! Cần một biến
-          <b>trung gian</b> (như cái cốc thứ ba khi đổi nước giữa hai cốc).
-        </p>
-        <div class="demo" data-id="d6">
-          <textarea spellcheck="false">
-a = 3
-b = 7
-tam = a      # cất giá trị của a
-a = b
-b = tam
-print(a, b)
-
-# Cách ngắn gọn của Python:
-a, b = b, a
-print(a, b)</textarea
-          >
-        </div>
-        <div class="note">
-          <b>Tóm tắt:</b> lệnh gán chạy <b>từ trên xuống dưới</b>, mỗi lệnh thay
-          đổi giá trị của biến bên trái; các biến khác giữ nguyên.
-        </div>
-      </section>
-
-      <!-- 5 -->
+      <!-- 6 -->
       <section id="nhapxuat" class="card">
-        <h2>5. Nhập, xuất dữ liệu</h2>
-        <ul>
-          <li>
-            <code>print(...)</code>: in dữ liệu ra màn hình, các giá trị cách
-            nhau bằng dấu phẩy.
-          </li>
-          <li>
-            <code>input("lời nhắc")</code>: đọc dữ liệu người dùng gõ. Kết quả
-            <b>luôn là xâu (str)</b>.
-          </li>
-          <li>
-            Muốn tính toán phải đổi kiểu: <code>int(...)</code> cho số nguyên,
-            <code>float(...)</code> cho số thực.
-          </li>
-        </ul>
+        <h2>6. Nhập dữ liệu với input()</h2>
+        <p>
+          Cho đến giờ em tự viết sẵn dữ liệu trong code. Với <code>input()</code>,
+          máy sẽ <b>dừng lại hỏi</b>, em gõ vào rồi nhấn Enter, máy cất câu trả
+          lời vào biến.
+        </p>
+        <div class="flow">
+          <div class="flow-box code">ten = input()</div>
+          <div class="flow-arrow">➜ em gõ <b>An</b> ➜</div>
+          <div class="flow-box screen">ten chứa "An"</div>
+        </div>
+        <div class="note warn">
+          <b>Quan trọng:</b> <code>input()</code> luôn trả về <b>chữ</b>, kể cả
+          khi em gõ số. Muốn tính toán, hãy đổi sang số:
+          <code>int(input())</code> cho số nguyên,
+          <code>float(input())</code> cho số thực.
+        </div>
+
+        <h3>Thử ngay: bấm Chạy, ô nhập sẽ hiện ra</h3>
         <div class="demo" data-id="d7">
           <textarea spellcheck="false">
 ten = input("Tên em là gì? ")
@@ -305,30 +313,23 @@ tuoi = 2025 - nam_sinh
 print("Chào", ten, "- năm 2025 em", tuoi, "tuổi")</textarea
           >
         </div>
-        <div class="note warn">
-          <b>Lỗi hay gặp:</b> quên <code>int()</code>. Khi đó
-          <code>"15" + "3"</code> cho <code>"153"</code> (ghép xâu) chứ không
-          phải <code>18</code>. Bấm Chạy, ô nhập sẽ hiện ra để em gõ như Python
-          thật. Hãy thử bỏ <code>int()</code> ở ví dụ trên để xem lỗi.
-        </div>
+        <p class="cap">
+          Thử xóa chữ <code>int(</code> và dấu <code>)</code> ở dòng 2 rồi chạy
+          lại để xem máy báo lỗi.
+        </p>
       </section>
 
-      <!-- 6 -->
-      <section id="baitap" class="card">
-        <h2>6. Bài tập lập trình</h2>
+      <section id="luyentap" class="card">
+        <h2>7. Luyện tập cuối bài</h2>
         <p>
-          Viết code, bấm <b>Chạy thử</b> để xem kết quả với dữ liệu em tự nhập,
-          rồi bấm <b>Chấm bài</b>. Chương trình được chạy với nhiều bộ dữ liệu
-          khác nhau, nên cần viết tổng quát (đừng “in sẵn” đáp án).
+          Em đã biết <code>print</code>, biến, lệnh gán và <code>input</code>.
+          Hãy dùng tất cả để làm 4 bài nhỏ dưới đây nhé!
         </p>
-        <div id="exercises"></div>
       </section>
 
       <section id="nopbai" class="card">
-        <h2>7. Nộp bài</h2>
-        <p>
-          Kết quả trắc nghiệm và bài tập (kèm code) sẽ được gửi cho giáo viên.
-        </p>
+        <h2>8. Nộp bài</h2>
+        <p>Kết quả các bài thực hành (kèm code) sẽ được gửi cho giáo viên.</p>
         <div id="summary" class="summary"></div>
         <form id="submitForm" class="form">
           <label

@@ -38,8 +38,7 @@ footer{margin-left:250px;padding:20px 26px 40px;color:var(--muted);font-size:.85
 
 /* cards, mỗi mục một màu */
 .card{background:var(--card);border:2px solid var(--line);border-top:8px solid var(--sec);border-radius:20px;padding:24px 28px;margin-bottom:26px;box-shadow:0 8px 24px #5b5bd612;position:relative}
-#muctieu{--sec:#ff9f1c}#bien{--sec:#ff5d8f}#dattten{--sec:#a14be0}#kieu{--sec:#3b82f6}#gan{--sec:#22b573}
-#nhapxuat{--sec:#18b8c9}#vet{--sec:#f2674a}#tracnghiem{--sec:#5b5bd6}#baitap{--sec:#e0a800}#nopbai{--sec:#ff5d8f}
+#muctieu{--sec:#ff9f1c}#print{--sec:#ff5d8f}#bien{--sec:#a14be0}#gan{--sec:#3b82f6}#dattten{--sec:#22b573}#kieu{--sec:#18b8c9}#nhapxuat{--sec:#f2674a}#luyentap{--sec:#e0a800}#nopbai{--sec:#5b5bd6}
 .card h2{margin:0 0 .7em;font-size:1.5rem;color:var(--sec);display:flex;align-items:center;gap:10px}
 .card h2::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--sec);box-shadow:0 0 0 5px color-mix(in srgb,var(--sec) 22%,transparent)}
 h3{margin:1.5em 0 .5em;font-size:1.1rem;color:var(--ink);display:inline-block;background:color-mix(in srgb,var(--sec) 16%,white);padding:3px 14px;border-radius:20px}
@@ -190,6 +189,37 @@ tr:nth-child(even) td{background:#f4f8ff}
 .cm-s-bai17 .cm-comment{color:#8890bd;font-style:italic}
 .legend{font-size:.92rem}
 .legend .lg{display:inline-block;background:var(--code-bg);padding:2px 12px;border-radius:8px;font-family:Consolas,monospace;margin:0 2px}
+
+/* cách học + phần thực hành */
+.steps-learn{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 16px}
+.steps-learn div{background:#ffffffc0;border-radius:14px;padding:10px 14px}
+.steps-learn b{display:block}
+.steps-learn span{color:var(--muted);font-size:.9rem}
+.practice{margin-top:28px;padding:16px;border-radius:18px;background:color-mix(in srgb,var(--sec) 7%,white);border:2px dashed color-mix(in srgb,var(--sec) 55%,white)}
+.practice-title{font-weight:800;font-size:1.15rem;color:var(--sec);margin-bottom:12px}
+.ex-goal{margin:8px 0 4px}
+.ex-steps{margin:4px 0 8px;padding-left:22px}
+.ex-sample{display:flex;flex-wrap:wrap;gap:16px;margin:8px 0}
+.ex-sample>div{flex:1;min-width:160px}
+.ex-sample pre{margin:4px 0 0;background:#14172b;color:#7dffb0;padding:8px 12px;border-radius:10px;font:14px/1.5 Consolas,monospace;white-space:pre-wrap}
+.ex-hint{margin:6px 0 2px}
+.ex-hint summary{cursor:pointer;font-weight:700;color:var(--brand)}
+.ex .result{margin:10px 0}
+.road{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:8px 0 16px}
+.road div{background:#ffffffc0;border-radius:14px;padding:10px 14px;display:flex;gap:10px;align-items:center}
+.road b{flex:none;width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center}
+.flow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:16px 0}
+.flow-box{padding:12px 18px;border-radius:14px;font:700 1.05rem Consolas,monospace}
+.flow-box.code{background:var(--code-bg);color:#c3f26b}
+.flow-box.screen{background:#14172b;color:#7dffb0;border:3px solid #444a73}
+.flow-arrow{font-weight:700;color:var(--sec)}
+.rules{display:grid;gap:8px;margin:12px 0}
+.rule{padding:9px 14px;border-radius:12px;border-left:6px solid}
+.rule.good{background:var(--ok-bg);border-color:var(--green)}
+.rule.bad{background:var(--bad-bg);border-color:var(--bad)}
+.viz{margin:10px 0}
+.viz .trace-body{grid-template-columns:1fr 1fr}
+@media (max-width:860px){.steps-learn{grid-template-columns:1fr}.viz .trace-body{grid-template-columns:1fr}}
 
 /* mini-check & bài tập */
 .mini{margin-top:22px;background:color-mix(in srgb,var(--sec) 8%,white);border-color:color-mix(in srgb,var(--sec) 45%,white)}
