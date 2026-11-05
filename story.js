@@ -909,14 +909,17 @@
   const DATA = [
     {
       year: "Ngày xưa", title: "Máy chỉ biết bật và tắt",
+      photo: "images/story-1.png", photoCap: "Ảnh thật: một kỹ thuật viên cắm dây trên bảng điều khiển của máy tính đời đầu (như ENIAC, thập niên 1940).",
       text: "Máy tính đời đầu to bằng cả một căn phòng. Nó chỉ hiểu <b>công tắc</b>: <b>bật là 1, tắt là 0</b>. Muốn máy làm việc, người ta phải đứng gạt từng công tắc. Gạt nhầm một cái là sai hết!",
     },
     {
       year: "Những năm 1940 – 1970", title: "Lưu chương trình vào thẻ giấy",
+      photo: "images/story-2.webp", photoCap: "Ảnh thật: một thẻ đục lỗ nằm trong máy đọc thẻ (Trung tâm xử lý dữ liệu Thế vận hội mùa đông 1960).",
       text: "Người ta đục các lỗ nhỏ lên <b>thẻ giấy</b>. Các lỗ này là mã để máy hiểu. Một thẻ là một dòng lệnh, cả chồng thẻ là cả chương trình. Đưa chồng thẻ cho máy đọc là xong, không cần gạt công tắc nữa. Nhưng phải <b>chờ rất lâu</b> mới có kết quả, và sai một lỗ đục là phải làm lại.",
     },
     {
       year: "Những năm 1950", title: "Nhờ máy tính dịch giúp",
+      photo: "images/story-3.png", photoCap: "Ảnh thật: bà Grace Hopper (ngồi giữa) cùng các đồng nghiệp bên máy tính UNIVAC.",
       text: "Có người nghĩ: <i>“Sao không bắt máy tính dịch giúp mình?”</i> Thế là người ta viết lệnh bằng <b>chữ dễ nhớ</b> như <code>ADD</code> (cộng), đục lên thẻ. Một <b>chương trình dịch</b> đọc thẻ và đổi chữ đó thành 0 và 1 cho máy hiểu. Bà Grace Hopper làm ra một trong những chương trình dịch đầu tiên (năm 1952). Các lệnh như <code>MOV</code>, <code>ADD</code> trong tranh chỉ là ví dụ minh họa.",
     },
     {
@@ -980,6 +983,9 @@
     el("storyCount").textContent = `Chặng ${idx + 1}/${DATA.length}`;
     el("storyTitle").textContent = d.title;
     el("storyText").innerHTML = d.text;
+    const fig = el("storyPhoto");
+    fig.hidden = !d.photo;
+    if (d.photo) { fig.querySelector("img").src = d.photo; fig.querySelector("img").alt = d.photoCap; fig.querySelector("figcaption").textContent = d.photoCap; }
     dots.forEach((b, i) => { b.classList.toggle("on", i === idx); b.classList.toggle("seen", seen.has(i) && i !== idx); });
     btnPrev.disabled = idx === 0;
     const last = idx === DATA.length - 1;
@@ -1004,6 +1010,18 @@
     if (e.key === "ArrowRight") { e.preventDefault(); btnNext.click(); }
     if (e.key === "ArrowLeft") { e.preventDefault(); btnPrev.click(); }
   });
+  // bấm vào ảnh thật để xem to, bấm lần nữa (hoặc Esc) để đóng
+  el("storyPhoto").querySelector("img").addEventListener("click", e => {
+    const ov = document.createElement("div");
+    ov.className = "photo-zoom";
+    ov.innerHTML = `<img src="${e.target.src}" alt=""><p>${el("storyPhoto").querySelector("figcaption").textContent}</p>`;
+    const close = () => { ov.remove(); document.removeEventListener("keydown", onKey, true); };
+    const onKey = k => { if (k.key === "Escape") { k.stopPropagation(); close(); } };
+    ov.addEventListener("click", close);
+    document.addEventListener("keydown", onKey, true);
+    (document.fullscreenElement || root).appendChild(ov);
+  });
+
   // phóng to toàn màn hình (Fullscreen API; nếu trình duyệt không cho thì dùng lớp phủ kín màn hình)
   const btnFull = el("storyFull");
   const isFull = () => document.fullscreenElement === root;
