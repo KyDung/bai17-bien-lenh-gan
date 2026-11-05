@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Giáo viên – Kết quả học sinh</title>
+  <link rel="icon" href="images/python-logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="teacher.css">
+</head>
+<body class="teacher-page">
+  <header class="topbar">
+    <a class="brand" href="teacher.html"><img src="images/python-logo.svg" alt="" width="30" height="30"><span><b>Trang giáo viên</b><small>Kết quả học sinh</small></span></a>
+    <span id="t-user" class="sync"></span>
+    <button type="button" id="t-logout" class="btn btn-ghost btn-sm" hidden>Đăng xuất</button>
+    <a class="teacher-link" href="index.html">← Về trang học sinh</a>
+  </header>
+
+  <main class="t-main" id="t-main" tabindex="-1">
+    <section id="t-login" class="card t-login" hidden>
+      <h1>Đăng nhập giáo viên</h1>
+      <p class="lead">Chỉ cần gõ tên (dung hoặc khuong) và mật khẩu.</p>
+      <form id="t-form" novalidate>
+        <label>Tên đăng nhập<input id="t-email" type="text" autocomplete="username" placeholder="ví dụ: dung" autocapitalize="off" required></label>
+        <label>Mật khẩu<input id="t-pass" type="password" autocomplete="current-password" required></label>
+        <p class="form-err" id="t-err" role="alert" hidden></p>
+        <button type="submit" class="btn btn-primary btn-lg" id="t-submit">Đăng nhập</button>
+      </form>
+    </section>
+
+    <section id="t-app" hidden>
+      <div class="card t-toolbar">
+        <label>Bài học
+          <select id="t-lesson"></select></label>
+        <label>Lớp
+          <select id="t-class"><option value="">Tất cả</option></select></label>
+        <label class="t-grow">Tìm học sinh
+          <input id="t-search" type="search" placeholder="Gõ tên…"></label>
+        <button type="button" class="btn btn-ghost btn-sm" id="t-csv">⬇ Xuất CSV</button>
+      </div>
+      <p class="t-note" id="t-status" role="status"></p>
+      <div class="card t-tablecard">
+        <div class="t-scroll">
+          <table class="t-table" id="t-table">
+            <thead><tr>
+              <th data-sort="name">Học sinh</th><th data-sort="className">Lớp</th>
+              <th title="Khởi động + Hình thành kiến thức">Học (đạt/tổng)</th><th>Luyện tập</th><th>Phần 1</th><th>Vận dụng</th>
+              <th data-sort="updated">Cập nhật</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="t-empty" id="t-empty" hidden>Chưa có học sinh nào ở bài này.</p>
+      </div>
+    </section>
+  </main>
+
+  <aside id="t-detail" class="t-detail" hidden aria-label="Chi tiết bài làm của học sinh">
+    <div class="t-detail-card">
+      <div class="t-detail-head"><div><h2 id="t-dname"></h2><p id="t-dsub"></p></div>
+        <div class="t-detail-actions"><button type="button" class="btn btn-ghost btn-sm" id="t-ddelete">🗑 Xóa học sinh</button><button type="button" class="btn btn-primary btn-sm" id="t-dclose">Đóng</button></div></div>
+      <div id="t-dbody"></div>
+    </div>
+  </aside>
+
+  <script src="firebase-config.js"></script>
+  <script src="teacher-util.js"></script>
+  <script src="teacher.js"></script>
+</body>
+</html>

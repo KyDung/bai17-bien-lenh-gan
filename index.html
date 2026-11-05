@@ -20,14 +20,16 @@
         <div class="progress"><div id="progressBar"></div></div>
         <span id="progressText">0%</span>
       </div>
+      <a class="teacher-btn" href="teacher.html" title="Đăng nhập để xem bài làm của học sinh">👩‍🏫 Giáo viên</a>
     </header>
 
     <nav id="sidebar" class="sidebar">
+      <a href="#chuyen" data-sec="chuyen">📖 Câu chuyện</a>
       <a href="#muctieu" data-sec="muctieu">🎯 Bắt đầu</a>
       <a href="#print" data-sec="print">1. Lệnh print</a>
       <a href="#bien" data-sec="bien">2. Biến là gì?</a>
-      <a href="#gan" data-sec="gan">3. Lệnh gán</a>
-      <a href="#dattten" data-sec="dattten">4. Đặt tên biến</a>
+      <a href="#dattten" data-sec="dattten">3. Đặt tên biến</a>
+      <a href="#gan" data-sec="gan">4. Lệnh gán</a>
       <a href="#kieu" data-sec="kieu">5. Số và chữ</a>
       <a href="#nhapxuat" data-sec="nhapxuat">6. Nhập dữ liệu</a>
       <a href="#luyentap" data-sec="luyentap">7. Luyện tập</a>
@@ -35,21 +37,65 @@
     </nav>
 
     <main>
+      <!-- thông tin học sinh: nhập trước khi học -->
+      <section id="thongtin" class="card info-card">
+        <h2>Em là ai?</h2>
+        <p>Nhập họ tên và lớp để bài làm của em được gửi đúng cho thầy cô.</p>
+        <div class="info-row">
+          <label>Họ và tên
+            <input id="fName" maxlength="60" placeholder="Nguyễn Văn A" autocomplete="name" /></label>
+          <label>Lớp
+            <input id="fClass" maxlength="15" placeholder="10A1" autocomplete="off" /></label>
+        </div>
+      </section>
+
+      <!-- 0: câu chuyện mở đầu -->
+      <section id="chuyen" class="card">
+        <h2>Câu chuyện: từ công tắc đến Python</h2>
+        <p>
+          Trước khi gõ dòng lệnh đầu tiên, hãy cùng xem con người đã làm gì để
+          “nói chuyện” với máy tính, và vì sao Python ra đời. Bấm
+          <b>Tiếp ▶</b> để đi qua từng chặng.
+        </p>
+        <div class="story" id="story" tabindex="0" aria-label="Câu chuyện về lịch sử lập trình">
+          <div class="story-tools">
+            <span class="story-keys">Phím ← → để chuyển chặng</span>
+            <button class="btn ghost small" type="button" id="storyFull">⛶ Toàn màn hình</button>
+          </div>
+          <div class="story-stage" id="storyStage"></div>
+          <div class="story-cap">
+            <div class="story-meta">
+              <span class="story-year" id="storyYear"></span>
+              <span class="story-count" id="storyCount"></span>
+            </div>
+            <div class="story-title" id="storyTitle"></div>
+            <p class="story-text" id="storyText"></p>
+          </div>
+          <div class="story-nav">
+            <button class="btn ghost" type="button" id="storyPrev">◀ Trước</button>
+            <div class="story-dots" id="storyDots"></div>
+            <button class="btn" type="button" id="storyNext">Tiếp ▶</button>
+          </div>
+        </div>
+      </section>
+
       <section id="muctieu" class="card hero">
         <h1>Làm quen với Python</h1>
         <p>
           Chào mừng em đến với bài lập trình đầu tiên! Em <b>chưa cần biết gì</b>
-          về Python, chúng ta học từng bước nhỏ.
+          về Python. Mỗi phần bắt đầu từ <b>một câu hỏi</b>, em đọc, xem máy chạy
+          rồi <b>tự gõ code</b>. Trả lời xong câu hỏi này thì sẽ nảy ra câu hỏi
+          tiếp theo.
         </p>
 
-        <h3>Hôm nay em sẽ học</h3>
+        <h3>Hôm nay em sẽ trả lời 6 câu hỏi</h3>
         <div class="road">
-          <div><b>1</b>Cho máy in chữ ra màn hình</div>
-          <div><b>2</b>Biến: chiếc hộp để máy nhớ dữ liệu</div>
-          <div><b>3</b>Lệnh gán: cất giá trị vào hộp</div>
-          <div><b>4</b>Cách đặt tên cho biến</div>
-          <div><b>5</b>Phân biệt số và chữ</div>
-          <div><b>6</b>Gõ dữ liệu vào cho máy</div>
+          <div><b>1</b>Làm sao bảo máy “nói” ra màn hình? → <code>print</code></div>
+          <div><b>2</b>Làm sao để máy nhớ lại? → <b>biến</b></div>
+          <div><b>3</b>Đặt tên cho hộp thế nào cho đúng? → <b>luật đặt tên</b></div>
+          <div><b>4</b>Làm sao cất giá trị vào hộp? → <b>lệnh gán</b></div>
+          <div><b>5</b>Sao có lúc ra 8, có lúc ra 53? → <b>số và chữ</b></div>
+          <div><b>6</b>Làm sao để máy hỏi người dùng? → <code>input</code></div>
         </div>
 
         <h3>Cách học mỗi phần</h3>
@@ -169,9 +215,42 @@ print(ten, "năm nay", tuoi, "tuổi")</textarea
       </section>
 
       <!-- 3 -->
+      <section id="dattten" class="card">
+        <h2>3. Cách đặt tên biến</h2>
+        <p>Mỗi chiếc hộp (biến) cần một cái tên. Tên biến phải theo luật, nếu không máy sẽ báo lỗi:</p>
+        <div class="rules">
+          <div class="rule good">✅ Gồm chữ cái <b>không dấu</b>, chữ số và dấu gạch dưới <code>_</code></div>
+          <div class="rule bad">❌ <b>Không</b> bắt đầu bằng chữ số: <code>2lop</code></div>
+          <div class="rule bad">❌ <b>Không</b> có dấu cách: <code>ten hs</code> (dùng <code>ten_hs</code>)</div>
+          <div class="rule bad">❌ <b>Không</b> có ký tự đặc biệt: <code>diem-toan</code></div>
+          <div class="rule bad">❌ <b>Không</b> trùng từ khóa Python: <code>for</code>, <code>if</code>, <code>while</code>…</div>
+          <div class="rule good">✅ Chữ hoa khác chữ thường: <code>Tuoi</code> và <code>tuoi</code> là hai biến khác nhau</div>
+        </div>
+        <div class="note">
+          <b>Nên:</b> đặt tên dễ hiểu, ví dụ <code>chieu_dai</code>,
+          <code>diem_toan</code>.
+        </div>
+
+        <h3>Máy kiểm tra tên biến</h3>
+        <p class="cap">Gõ một tên hoặc bấm vào tên mẫu bên dưới.</p>
+        <div class="checker">
+          <input
+            id="nameInput"
+            type="text"
+            placeholder="Gõ thử một tên, ví dụ 2ban hoặc diem_toan"
+            autocomplete="off"
+          />
+          <div id="nameResult" class="result neutral">
+            Hãy gõ một tên để kiểm tra.
+          </div>
+        </div>
+        <div class="chips" id="nameChips"></div>
+      </section>
+
+      <!-- 4 -->
       <section id="gan" class="card">
-        <h2>3. Lệnh gán: cất giá trị vào hộp</h2>
-        <p>Dấu <code>=</code> là cách để <b>gán</b> (cất) giá trị vào biến:</p>
+        <h2>4. Lệnh gán: cất giá trị vào hộp</h2>
+        <p>Hộp đã có tên rồi. Dấu <code>=</code> là cách để <b>gán</b> (cất) giá trị vào biến:</p>
         <p><code class="big">tên_biến = giá_trị</code></p>
         <div class="note warn">
           Dấu <code>=</code> trong Python <b>không phải</b> “bằng nhau” như trong
@@ -202,39 +281,6 @@ print(x)</textarea
           chỉ thay đổi biến ở bên trái dấu <code>=</code>. Chữ sau dấu
           <code>#</code> là ghi chú, máy bỏ qua.
         </div>
-      </section>
-
-      <!-- 4 -->
-      <section id="dattten" class="card">
-        <h2>4. Cách đặt tên biến</h2>
-        <p>Tên biến phải theo luật, nếu không máy sẽ báo lỗi:</p>
-        <div class="rules">
-          <div class="rule good">✅ Gồm chữ cái <b>không dấu</b>, chữ số và dấu gạch dưới <code>_</code></div>
-          <div class="rule bad">❌ <b>Không</b> bắt đầu bằng chữ số: <code>2lop</code></div>
-          <div class="rule bad">❌ <b>Không</b> có dấu cách: <code>ten hs</code> (dùng <code>ten_hs</code>)</div>
-          <div class="rule bad">❌ <b>Không</b> có ký tự đặc biệt: <code>diem-toan</code></div>
-          <div class="rule bad">❌ <b>Không</b> trùng từ khóa Python: <code>for</code>, <code>if</code>, <code>while</code>…</div>
-          <div class="rule good">✅ Chữ hoa khác chữ thường: <code>Tuoi</code> và <code>tuoi</code> là hai biến khác nhau</div>
-        </div>
-        <div class="note">
-          <b>Nên:</b> đặt tên dễ hiểu, ví dụ <code>chieu_dai</code>,
-          <code>diem_toan</code>.
-        </div>
-
-        <h3>Máy kiểm tra tên biến</h3>
-        <p class="cap">Gõ một tên hoặc bấm vào tên mẫu bên dưới.</p>
-        <div class="checker">
-          <input
-            id="nameInput"
-            type="text"
-            placeholder="Gõ thử một tên, ví dụ 2ban hoặc diem_toan"
-            autocomplete="off"
-          />
-          <div id="nameResult" class="result neutral">
-            Hãy gõ một tên để kiểm tra.
-          </div>
-        </div>
-        <div class="chips" id="nameChips"></div>
       </section>
 
       <!-- 5 -->
@@ -323,8 +369,22 @@ print("Chào", ten, "- năm 2025 em", tuoi, "tuổi")</textarea
         <h2>7. Luyện tập cuối bài</h2>
         <p>
           Em đã biết <code>print</code>, biến, lệnh gán và <code>input</code>.
-          Hãy dùng tất cả để làm 4 bài nhỏ dưới đây nhé!
+          Hãy dùng tất cả để làm 5 bài nhỏ dưới đây nhé! Bài cuối khó hơn một
+          chút, cần thêm hai phép tính mới.
         </p>
+        <div class="note">
+          <b>Hai phép tính mới:</b> <code>//</code> chia và <b>lấy phần nguyên</b>,
+          <code>%</code> chia và <b>lấy phần dư</b>. Ví dụ chia 17 cho 5 được 3 và
+          dư 2, nên <code>17 // 5</code> bằng 3 còn <code>17 % 5</code> bằng 2.
+        </div>
+        <div class="demo" data-id="d8">
+          <textarea spellcheck="false">
+print(17 // 5)   # thương (phần nguyên)
+print(17 % 5)    # số dư
+print(20 // 5)
+print(20 % 5)    # chia hết thì dư 0</textarea
+          >
+        </div>
       </section>
 
       <section id="nopbai" class="card">
@@ -332,24 +392,15 @@ print("Chào", ten, "- năm 2025 em", tuoi, "tuổi")</textarea
         <p>Kết quả các bài thực hành (kèm code) sẽ được gửi cho giáo viên.</p>
         <div id="summary" class="summary"></div>
         <form id="submitForm" class="form">
-          <label
-            >Họ và tên
-            <input
-              id="fName"
-              required
-              maxlength="60"
-              placeholder="Nguyễn Văn A"
-          /></label>
-          <label
-            >Lớp <input id="fClass" required maxlength="20" placeholder="10A1"
-          /></label>
+          <p class="who-line">Nộp bài với tên: <b id="whoLabel">(chưa nhập)</b>
+            · <a href="#thongtin">sửa thông tin ở đầu trang</a></p>
           <button class="btn big" type="submit">📤 Nộp bài</button>
         </form>
         <div id="submitMsg" class="result neutral" hidden></div>
       </section>
     </main>
 
-    <footer>Bài 17 · Biến và lệnh gán · Tin học 10</footer>
+    <footer>Bài 17 · Biến và lệnh gán · Tin học 10 · <a href="teacher.html">Trang giáo viên</a></footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
@@ -358,5 +409,6 @@ print("Chào", ten, "- năm 2025 em", tuoi, "tuổi")</textarea
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/runmode/runmode.min.js"></script>
     <script src="firebase-config.js"></script>
     <script src="app.js"></script>
+    <script src="story.js"></script>
   </body>
 </html>

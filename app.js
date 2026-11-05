@@ -6,11 +6,11 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 const KEY = "bai17_bien_lenhgan";
-let state = { seen: {}, quiz: {}, code: {}, passed: {}, submitted: false };
+let state = { seen: {}, quiz: {}, code: {}, passed: {}, meta: {}, submitted: false };
 try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) { }
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { } };
 
-const SECTIONS = ["muctieu", "print", "bien", "gan", "dattten", "kieu", "nhapxuat", "luyentap", "nopbai"];
+const SECTIONS = ["chuyen", "muctieu", "print", "bien", "dattten", "gan", "kieu", "nhapxuat", "luyentap", "nopbai"];
 
 function sectionDone(id) {
   if (id === "nopbai") return !!state.submitted;
@@ -365,7 +365,7 @@ const EXERCISES = [
     must: [[/\bten\s*=/, "Em chưa tạo biến ten."], [/\btuoi\s*=/, "Em chưa tạo biến tuoi."]],
     tests: [{ i: [], o: "Lan 16" }] },
 
-  { id: "th4", sec: "gan", title: "Thực hành 4. Cộng điểm",
+  { id: "th4", sec: "gan", title: "Thực hành 5. Cộng điểm",
     goal: "Bạn Lan có 7 điểm. Cô thưởng thêm 2 điểm. Dùng lệnh gán để cập nhật biến <code>diem</code> rồi in ra.",
     steps: ["Giữ dòng <code>diem = 7</code>.", "Cộng thêm 2 bằng <code>diem = diem + 2</code>.", "In <code>diem</code> ra màn hình."],
     sample: { out: "9" },
@@ -374,7 +374,7 @@ const EXERCISES = [
     must: [[/\bdiem\s*(\+=|=\s*diem\s*\+)/, "Hãy dùng diem = diem + 2 để cộng thêm điểm."]],
     tests: [{ i: [], o: "9" }] },
 
-  { id: "th5", sec: "gan", title: "Thực hành 5. Hình chữ nhật",
+  { id: "th5", sec: "gan", title: "Thực hành 6. Hình chữ nhật",
     goal: "Cho chiều dài và chiều rộng. Dùng lệnh gán để tính chu vi và diện tích.",
     steps: ["Gán <code>chu_vi = (dai + rong) * 2</code>.", "Gán <code>dien_tich</code> = dài × rộng.", "In <code>chu_vi</code> ở dòng 1, <code>dien_tich</code> ở dòng 2."],
     sample: { out: "16\n15" },
@@ -383,7 +383,7 @@ const EXERCISES = [
     must: [[/\bchu_vi\s*=/, "Em chưa gán biến chu_vi."], [/\bdien_tich\s*=/, "Em chưa gán biến dien_tich."]],
     tests: [{ i: [], o: "16\n15" }] },
 
-  { id: "th6", sec: "dattten", title: "Thực hành 6. Sửa tên biến sai",
+  { id: "th6", sec: "dattten", title: "Thực hành 4. Sửa tên biến sai",
     goal: "Đoạn code dưới đây có 3 tên biến sai quy tắc nên bị lỗi. Hãy sửa tên cho đúng để chương trình chạy được.",
     steps: ["Tìm 3 tên sai (bắt đầu bằng số, có dấu cách, có dấu <code>-</code>).", "Sửa lại, nhớ sửa <b>cả ở dòng print</b> cho khớp tên mới.", "Kết quả in ra phải giống ví dụ."],
     sample: { out: "Lan 10A1 9" },
@@ -449,7 +449,16 @@ const EXERCISES = [
     hint: "Nhớ dùng float(input()) vì điểm có thể có phần lẻ. Dấu / là phép chia.",
     start: "# Viết các lệnh theo các bước ở trên\n\n",
     must: [[/\btb\s*=/, "Em chưa gán biến tb."]],
-    tests: [{ i: ["8", "6"], o: "7.0" }, { i: ["9", "10"], o: "9.5" }, { i: ["5.5", "7"], o: "6.25" }] }
+    tests: [{ i: ["8", "6"], o: "7.0" }, { i: ["9", "10"], o: "9.5" }, { i: ["5.5", "7"], o: "6.25" }] },
+
+  { id: "lt5", sec: "luyentap", title: "Luyện tập 5. Chia kẹo",
+    goal: "Cô giáo có <b>n</b> cái kẹo, chia đều cho <b>k</b> bạn (mỗi bạn nhận số kẹo bằng nhau, kẹo thừa cô giữ lại). Nhập n rồi nhập k (mỗi số một dòng). In ra số kẹo <b>mỗi bạn nhận được</b>, rồi in số kẹo <b>cô còn dư</b> (mỗi số một dòng).",
+    steps: ["Nhập <code>n</code> và <code>k</code> bằng <code>int(input())</code>.", "Số kẹo mỗi bạn: <code>moi_ban = n // k</code>.", "Số kẹo dư: <code>du = n % k</code>.", "In <code>moi_ban</code> rồi in <code>du</code>."],
+    sample: { i: ["17", "5"], out: "3\n2" },
+    hint: "17 // 5 = 3 và 17 % 5 = 2. Dùng // để chia lấy phần nguyên, dùng % để lấy số dư.",
+    start: "# Viết các lệnh theo các bước ở trên\n\n",
+    must: [[/\/\//, "Em chưa dùng phép // (chia lấy phần nguyên)."], [/%/, "Em chưa dùng phép % (chia lấy phần dư)."]],
+    tests: [{ i: ["17", "5"], o: "3\n2" }, { i: ["20", "4"], o: "5\n0" }, { i: ["3", "5"], o: "0\n3" }] }
 ];
 const norm = s => s.normalize("NFC").split("\n").map(l => l.trimEnd()).join("\n").trim();
 
@@ -497,7 +506,12 @@ EXERCISES.forEach(ex => {
           `</div></div>`;
       }
       const all = pass === ex.tests.length && !miss;
-      state.passed[ex.id] = all; state.code[ex.id] = code; save(); mark();
+      state.passed[ex.id] = all; state.code[ex.id] = code;
+      // ghi lại số lần chấm và thời gian để giáo viên xem
+      const m = state.meta[ex.id] = state.meta[ex.id] || { attempts: 0, startedAt: new Date().toISOString() };
+      m.attempts++;
+      if (all && !m.completedAt) m.completedAt = new Date().toISOString();
+      save(); mark();
       res.innerHTML = `<div class="result ${all ? "ok" : "bad"}">${all ? "🎉 Đạt rồi!" : "Chưa đạt"} (${pass}/${ex.tests.length} kết quả đúng)</div>` +
         (miss ? `<div class="result bad">${miss[1]}</div>` : "") + html + "<br>";
       refreshProgress();
@@ -519,6 +533,29 @@ EXERCISES.forEach(ex => {
 function collect() {
   return {
     exercises: EXERCISES.map(e => ({ id: e.id, passed: !!state.passed[e.id], code: state.code[e.id] ?? "" }))
+  };
+}
+/* Khóa học sinh {lớp}_{họtên}: bỏ dấu, chỉ chữ + số, khớp regex trong firestore.rules */
+function slugKey(s, max) {
+  const t = String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
+  return t.split(/[^A-Za-z0-9]+/).filter(Boolean).map(w => w[0].toUpperCase() + w.slice(1)).join("").slice(0, max);
+}
+/* Dữ liệu gửi giáo viên, theo lược đồ chung: lessons/{id}/students/{lớp_họtên} (các bài luyện tập nằm trong practice[]) */
+function buildSubmission(name, className) {
+  const now = new Date().toISOString();
+  const practice = EXERCISES.map(e => {
+    const m = state.meta[e.id] || {};
+    const r = { activityId: e.id, studentCode: (state.code[e.id] ?? "").slice(0, 20000), attempts: m.attempts || 0, passed: !!state.passed[e.id] };
+    if (m.startedAt) r.startedAt = m.startedAt;
+    if (m.completedAt) r.completedAt = m.completedAt;
+    return r;
+  });
+  return {
+    lessonId: LESSON.id,
+    student: { name, className },
+    learning: [],
+    practice,
+    progress: { learningCompleted: 0, practiceCompleted: practice.filter(p => p.passed).length, part1Submitted: true, part1SubmittedAt: now }
   };
 }
 function renderSummary() {
@@ -547,9 +584,29 @@ function downloadJson(data, name) {
   a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
   a.download = name; a.click();
 }
+/* Họ tên + lớp nhập ở đầu trang, được nhớ lại trong trình duyệt */
+state.student = state.student || { name: "", className: "" };
+const fName = $("#fName"), fClass = $("#fClass");
+fName.value = state.student.name || ""; fClass.value = state.student.className || "";
+function updateWho() {
+  const n = fName.value.trim(), c = fClass.value.trim();
+  $("#whoLabel").textContent = n || c ? `${n || "(chưa nhập tên)"} · lớp ${c || "?"}` : "(chưa nhập)";
+}
+[fName, fClass].forEach(i => i.addEventListener("input", () => {
+  i.classList.remove("need");
+  state.student = { name: fName.value, className: fClass.value }; save(); updateWho();
+}));
+updateWho();
 $("#submitForm").addEventListener("submit", async e => {
   e.preventDefault();
   const msg = $("#submitMsg"), btn = $("button", e.target);
+  if (!fName.value.trim() || !fClass.value.trim()) {
+    [fName, fClass].forEach(i => i.classList.toggle("need", !i.value.trim()));
+    msg.hidden = false; msg.className = "result bad";
+    msg.textContent = "Em chưa nhập họ tên hoặc lớp. Hãy điền ở ô “Em là ai?” ở đầu trang rồi nộp lại.";
+    $("#thongtin").scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
   const data = Object.assign({ name: $("#fName").value.trim(), className: $("#fClass").value.trim(), lesson: "bai17-bien-va-lenh-gan" }, collect());
   msg.hidden = false; msg.className = "result neutral"; msg.textContent = "Đang nộp bài…"; btn.disabled = true;
   try {
@@ -559,8 +616,14 @@ $("#submitForm").addEventListener("submit", async e => {
       msg.innerHTML = "Trang chưa được kết nối Firebase nên bài chưa gửi được cho giáo viên. File bài làm đã được tải về máy, em hãy gửi file này cho thầy/cô.";
       downloadJson(data, `bai17_${data.className}_${data.name}.json`.replace(/\s+/g, "_"));
     } else {
-      await db.collection(window.FIREBASE_COLLECTION || "submissions_bai17")
-        .add(Object.assign({}, data, { createdAt: firebase.firestore.FieldValue.serverTimestamp() }));
+      const key = slugKey(data.className, 15) + "_" + slugKey(data.name, 40);
+      if (!slugKey(data.className, 15) || !slugKey(data.name, 40)) throw new Error("Em hãy nhập đủ họ tên và lớp (dùng chữ và số).");
+      const ts = firebase.firestore.FieldValue.serverTimestamp();
+      const batch = db.batch();
+      batch.set(db.collection("lessons").doc(LESSON.id), { title: LESSON.title, updatedAt: ts }, { merge: true });
+      batch.set(db.collection("lessons").doc(LESSON.id).collection("students").doc(key),
+        Object.assign(buildSubmission(data.name, data.className), { updatedAt: ts }), { merge: true });
+      await Promise.race([batch.commit(), new Promise((_, rej) => setTimeout(() => rej(new Error("Hết thời gian chờ mạng.")), 20000))]);
       state.submitted = true; save(); refreshProgress();
       msg.className = "result ok"; msg.textContent = "✅ Nộp bài thành công! Cảm ơn " + data.name + ".";
     }
